@@ -20,7 +20,7 @@ class LeagueController extends ApiController
      */
     public function show(League $league)
     {
-        $data = $this->serialize($league);
+        $data = $league->serialize();
         return $this->responseTemplate($data);
     }
 

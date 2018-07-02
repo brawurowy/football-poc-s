@@ -4,3 +4,11 @@
 login_check:
     path:     /login_check
     methods:  [POST]
+
+test:
+    path: /
+    controller: App\Controller\LeagueController::index
+
+test2:
+    path: /{league}
+    controller: App\Controller\LeagueController::show

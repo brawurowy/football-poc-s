@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LeagueRepository")
  */
-class League
+class League extends BaseModel
 {
     /**
      * @ORM\Id()
@@ -31,6 +31,13 @@ class League
     public function __construct()
     {
         $this->teams = new ArrayCollection();
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getId()

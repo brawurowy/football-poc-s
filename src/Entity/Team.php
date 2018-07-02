@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TeamRepository")
  */
-class Team
+class Team extends BaseModel
 {
     /**
      * @ORM\Id()
