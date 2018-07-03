@@ -27,6 +27,7 @@ class TeamController extends ApiController
 
         return new Response($team);
     }
+
     /**
      * @Route("", methods="POST", name="store")
      * @param Request $request
@@ -85,7 +86,7 @@ class TeamController extends ApiController
     {
         if(!$team) {
             $response = new Response('Cannot find team!');
-            $response->setStatusCode(Resp1onse::HTTP_NOT_FOUND);
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
             return $response;
         }
 
