@@ -18,7 +18,6 @@
         <env name="JWT_PUBLIC_KEY_PATH" value="config/jwt/public.pem" />
         <env name="JWT_PASSPHRASE" value="" />
         <env name="DATABASE_URL" value="sqlite:///%kernel.project_dir%/var/football-poc-test.db" />
-        <env name="BOOTSTRAP_CLEAR_CACHE_ENV" value="test" />
         <!-- define your env variables for the test env here -->
     </php>
 
