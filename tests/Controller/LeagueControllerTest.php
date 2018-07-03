@@ -2,51 +2,61 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\League;
+
 class LeagueControllerTest extends BaseControllerTest
 {
-    public function testShowTeams()
+    public function testExampleLeagueController()
     {
-        $client = $this->createAuthenticatedClient();
-
-        $client->request('GET', '/api/v1/leagues/1/teams');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue(true);
     }
 
-    public function testShowTeam()
+    public function testCreateLeague()
     {
-        $client = $this->createAuthenticatedClient();
+        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $client->request('GET', '/api/v1/leagues/1/teams/1');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-    }
+        $league = new League();
+        $league->setName('Liga testowa');
 
-    public function testUpdateLeague()
-    {
-        $client = $this->createAuthenticatedClient();
+        $em->persist($league);
 
-        $client->request('PATCH', '/api/v1/leagues/1', [
-            'name' => 'league_test_50'
-        ]);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-
-        $data = json_decode($client->getResponse()->getContent(), true);
-
-        $this->assertArrayHasKey('success', $data);
-        $this->assertEquals(true, $data['success']);
-        $this->assertArrayHasKey('data', $data);
+        $this->assertEquals('Liga testowa', $league->getName());
     }
 
     public function testDeleteLeague()
     {
-        $client = $this->createAuthenticatedClient();
+        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $client->request('DELETE', '/api/v1/leagues/1');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $league = new League();
+        $league->setName('Liga testowa 2');
 
-        $data = json_decode($client->getResponse()->getContent(), true);
+        $em->remove($league);
+        $em->flush();
 
-        $this->assertArrayHasKey('success', $data);
-        $this->assertEquals(true, $data['success']);
-        $this->assertArrayHasKey('data', $data);
+        $this->assertEquals('Liga testowa 2', $league->getName());
+    }
+
+    public function testCreateLeagueAndChangeName()
+    {
+        $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $league = new League();
+        $league->setName('Liga testowa');
+
+        $em->persist($league);
+
+        $this->assertEquals('Liga testowa', $league->getName());
+
+        $league->setName('Liga zmieniona');
+
+        $em->persist($league);
+
+        $this->assertEquals('Liga zmieniona', $league->getName());
     }
 }

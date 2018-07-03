@@ -33,4 +33,9 @@ class BaseControllerTest extends WebTestCase
 
         return $client;
     }
+
+    public function testExampleBaseController()
+    {
+        $this->assertTrue(true);
+    }
 }
