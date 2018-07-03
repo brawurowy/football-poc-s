@@ -6,7 +6,7 @@ passthru(sprintf(
     __DIR__
 ));
 
-// executes the "php bin/console doctrine:schema:drop --env=test" command
+// executes the "php bin/console doctrine:schema:drop --env=test --force" command
 passthru(sprintf(
     'php %s/../bin/console doctrine:schema:drop --env=test --force',
     __DIR__
