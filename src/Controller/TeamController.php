@@ -5,8 +5,8 @@ namespace App\Controller;
 
 use App\Entity\Team;
 use App\Form\TeamType;
+use App\Response\JsonResponseStructured as Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -17,6 +17,16 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class TeamController extends ApiController
 {
+    public function show(Team $team = null)
+    {
+        if(!$team) {
+            $response = new Response(null, 'Ooops! Not found!', false);
+            $response->setStatusCode(404);
+            return $response;
+        }
+
+        return new Response($team);
+    }
     /**
      * @Route("", methods="POST", name="store")
      * @param Request $request
@@ -64,5 +74,24 @@ class TeamController extends ApiController
         $em = $this->getDoctrine()->getManager();
         $em->flush();
         return $this->json(['success' => true, 'msg' => "Updated product with id " . $team->getId(), 'data' => $this->serialize($team, ['normalizer_ignored_attributes' => ['league']])]);
+    }
+
+    public function destroy(Request $request, ValidatorInterface $validator, Team $team = null)
+    {
+        if(!$team) {
+            $response = new Response('Cannot find team!');
+            $response->setStatusCode(404);
+            return $response;
+        }
+
+        try {
+            $this->entityManager->remove($team);
+            $this->entityManager->flush();
+            return new Response($team);
+        } catch (\Exception $e) {
+            $response = new Response('Error!', 'FAIL', false);
+            $response->setStatusCode(486);
+            return $response;
+        }
     }
 }

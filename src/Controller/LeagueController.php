@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\League;
-use Symfony\Component\HttpFoundation\Response;
+use App\Response\JsonResponseStructured as Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,8 +20,7 @@ class LeagueController extends ApiController
      */
     public function show(League $league)
     {
-        $data = $this->serialize($league);
-        return $this->responseTemplate($data);
+        return new Response($league);
     }
 
     /**
@@ -31,7 +30,6 @@ class LeagueController extends ApiController
      */
     public function getTeams(League $league)
     {
-        $data = $this->serialize($league->getTeams(), ['normalizer_ignored_attributes' => ['league']]);
-        return $this->responseTemplate($data);
+        return new Response($league->getTeams()->toArray());
     }
 }
