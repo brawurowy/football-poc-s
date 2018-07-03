@@ -43,6 +43,21 @@ class User extends BaseModel implements UserInterface, \Serializable
         $this->isActive = true;
     }
 
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
     public function getUsername()
     {
         return $this->username;
@@ -51,6 +66,11 @@ class User extends BaseModel implements UserInterface, \Serializable
     public function getSalt()
     {
         return null;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
 
     public function getPassword()
