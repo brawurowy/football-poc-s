@@ -8,11 +8,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TeamRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Team extends BaseModel
 {
 
-    protected $attributesToSkip = ['league'];
+    protected $attributesToSkip = ['league','createdAt', 'updatedAt'];
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -37,6 +38,16 @@ class Team extends BaseModel
      * @Assert\NotBlank()
      */
     private $league;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $createdAt;
 
     public function getId()
     {
@@ -78,4 +89,51 @@ class Team extends BaseModel
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setUpdatedAt(new \DateTime('now'));
+
+        if ($this->getCreatedAt() == null) {
+            $this->setCreatedAt(new \DateTime('now'));
+        }
+    }
+
 }

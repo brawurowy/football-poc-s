@@ -8,10 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LeagueRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class League extends BaseModel
 {
-    protected $attributesToSkip = ['league'];
+
+    protected $attributesToSkip = ['league', 'createdAt', 'updatedAt'];
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -28,6 +30,16 @@ class League extends BaseModel
      * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="league", cascade="remove")
      */
     private $teams;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $createdAt;
 
     public function __construct()
     {
@@ -87,5 +99,50 @@ class League extends BaseModel
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setUpdatedAt(new \DateTime('now'));
+
+        if ($this->getCreatedAt() == null) {
+            $this->setCreatedAt(new \DateTime('now'));
+        }
     }
 }
