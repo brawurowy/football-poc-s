@@ -4,28 +4,3 @@
 login_check:
     path:     /login_check
     methods:  [POST]
-
-list-leagues:
-    path: league/
-    controller: App\Controller\LeagueController::index
-    methods:  [GET]
-
-show-league:
-    path: league/{league}
-    controller: App\Controller\LeagueController::show
-    methods:  [GET]
-
-list-teams-for-league:
-    path: league/{league}/teams
-    controller: App\Controller\LeagueController::getTeams
-    methods:  [GET]
-
-show-team:
-    path: team/{team}
-    controller: App\Controller\TeamController::show
-    methods:  [GET]
-
-delete-team:
-    path: team/{team}/destroy
-    controller: App\Controller\TeamController::destroy
-    #    methods:  [DELETE]

@@ -3,17 +3,13 @@
 namespace App\Entity;
 
 use App\Serialization\SerializeTrait;
+use Doctrine\ORM\Mapping as ORM;
 use Serializable;
 use JsonSerializable;
 
 abstract class BaseModel implements Serializable, JsonSerializable
 {
     use SerializeTrait;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $deletedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)

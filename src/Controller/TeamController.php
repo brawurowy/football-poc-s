@@ -47,7 +47,7 @@ class TeamController extends ApiController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($team);
         $entityManager->flush();
-        return $this->json(['success' => true, 'msg' => "Saved new product with id " . $team->getId(), 'data' => $this->serialize($team, ['normalizer_ignored_attributes' => ['league']])]);
+        return $this->json(['success' => true, 'msg' => "Saved new product with id " . $team->getId(), 'data' => $team->serialize()]);
     }
 
     /**
@@ -73,14 +73,19 @@ class TeamController extends ApiController
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
-        return $this->json(['success' => true, 'msg' => "Updated product with id " . $team->getId(), 'data' => $this->serialize($team, ['normalizer_ignored_attributes' => ['league']])]);
+        return $this->json(['success' => true, 'msg' => "Updated product with id " . $team->getId(), 'data' => $team->serialize()]);
     }
 
-    public function destroy(Request $request, ValidatorInterface $validator, Team $team = null)
+    /**
+     * @Route("/{id}", methods={"DELETE"}, name="destroy")
+     * @param Team|null $team
+     * @return Response
+     */
+    public function destroy(Team $team = null)
     {
         if(!$team) {
             $response = new Response('Cannot find team!');
-            $response->setStatusCode(404);
+            $response->setStatusCode(Resp1onse::HTTP_NOT_FOUND);
             return $response;
         }
 

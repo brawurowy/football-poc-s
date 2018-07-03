@@ -7,16 +7,27 @@ use App\Entity\Team;
 use App\Entity\League;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
+
     public function load(ObjectManager $manager)
     {
         // create 20 users
         for ($i = 0; $i < 20; $i++) {
             $user = new User();
-            $user->setUsername('TestUser '.$i);
-            $user->setPassword('test');
+            $user->setUsername('testuser'.$i);
+            $password = $this->encoder->encodePassword($user, 'test');
+            $user->setPassword($password);
             $user->setEmail('user-football-poc-'.$i.'@test.com');
             $manager->persist($user);
         }
