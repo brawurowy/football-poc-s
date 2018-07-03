@@ -14,7 +14,7 @@ class BaseControllerTest extends WebTestCase
      *
      * @return \Symfony\Bundle\FrameworkBundle\Client
      */
-    protected function createAuthenticatedClient($username = 'testuser0', $password = '0')
+    protected function createAuthenticatedClient($username = 'testuser0', $password = 'test')
     {
         $client = static::createClient();
         $client->request(
@@ -23,7 +23,7 @@ class BaseControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            '{"username":"testuser0","password":"test"}'
+            '{"username":"'.$username.'","password":"'.$password.'"}'
 
         );
 

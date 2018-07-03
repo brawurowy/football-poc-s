@@ -25,7 +25,7 @@ class League extends BaseModel
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="league")
+     * @ORM\OneToMany(targetEntity="App\Entity\Team", mappedBy="league", cascade="remove")
      */
     private $teams;
 

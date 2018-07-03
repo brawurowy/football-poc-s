@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use App\Serialization\SerializeTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Serializable;
 use JsonSerializable;
+use Serializable;
 
 abstract class BaseModel implements Serializable, JsonSerializable
 {
@@ -20,6 +20,23 @@ abstract class BaseModel implements Serializable, JsonSerializable
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $createdAt;
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
     /**
      *
      * @ORM\PrePersist

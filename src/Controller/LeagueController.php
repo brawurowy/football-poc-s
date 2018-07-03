@@ -32,4 +32,28 @@ class LeagueController extends ApiController
     {
         return new Response($league->getTeams()->toArray());
     }
+
+    /**
+     * @Route("/{id}", methods="DELETE", name="destroy")
+     * @param League $league
+     */
+    public function destroy(League $league = null)
+    {
+        if(!$league) {
+            $response = new Response('Cannot find team!');
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            return $response;
+        }
+
+        try {
+            $this->entityManager->remove($league);
+            $this->entityManager->flush();
+            return new Response($league);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            $response = new Response('Error!', 'FAIL', false);
+            $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $response;
+        }
+    }
 }
