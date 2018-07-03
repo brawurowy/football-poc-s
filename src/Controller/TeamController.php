@@ -17,6 +17,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class TeamController extends ApiController
 {
+
+    /**
+     * @Route("/{id}", methods="GET", name="show")
+     * @param Team|null $team
+     * @return Response
+     */
     public function show(Team $team = null)
     {
         if(!$team) {
@@ -96,7 +102,7 @@ class TeamController extends ApiController
             return new Response($team);
         } catch (\Exception $e) {
             $response = new Response('Error!', 'FAIL', false);
-            $response->setStatusCode(486);
+            $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
             return $response;
         }
     }
