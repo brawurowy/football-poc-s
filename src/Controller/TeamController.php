@@ -27,7 +27,7 @@ class TeamController extends ApiController
     {
         if(!$team) {
             $response = new Response(null, 'Ooops! Not found!', false);
-            $response->setStatusCode(404);
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
             return $response;
         }
 
