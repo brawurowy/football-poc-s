@@ -11,6 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Team extends BaseModel
 {
+
+    protected $attributesToSkip = ['league'];
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

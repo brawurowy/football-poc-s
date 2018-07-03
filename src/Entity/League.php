@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class League extends BaseModel
 {
+    protected $attributesToSkip = ['league'];
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

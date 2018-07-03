@@ -2,30 +2,39 @@
 
 namespace App\Entity;
 
+use App\Serialization\SerializeTrait;
 use Serializable;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
+use JsonSerializable;
 
-abstract class BaseModel implements Serializable
+abstract class BaseModel implements Serializable, JsonSerializable
 {
-    protected $serializer;
+    use SerializeTrait;
 
-    protected function resolveSerializer()
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     */
+    private $createdAt;
+    /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
     {
-        if(!$this->serializer) {
-            $this->serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
+        $this->setUpdatedAt(new \DateTime('now'));
+
+        if ($this->getCreatedAt() == null) {
+            $this->setCreatedAt(new \DateTime('now'));
         }
-        return $this->serializer;
-    }
-
-    public function serialize()
-    {
-        return $this->resolveSerializer()->serialize($this, 'json');
-    }
-
-    public function unserialize($serialized)
-    {
-        return $this->resolveSerializer()->deserialize($serialized, static::class, 'json');
     }
 }
