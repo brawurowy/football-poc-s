@@ -58,6 +58,36 @@ class TeamControllerTest extends BaseControllerTest
         $this->assertArrayHasKey('data', $data);
     }
 
+    public function testUpdateResponseIsJson()
+    {
+        $client = $this->createAuthenticatedClient();
+
+        $client->request('PATCH', '/api/v1/teams/1', [
+            'name' => 'test_50',
+            'strip' => 'white',
+            'league' => 1
+        ]);
+        $this->assertTrue($client->getResponse()->headers->contains(
+            'Content-Type',
+            'application/json'
+        ),
+            'the "Content-Type" header is "application/json"'
+        );
+    }
+
+    public function testDeleteResponseIsJson()
+    {
+        $client = $this->createAuthenticatedClient();
+
+        $client->request('DELETE', '/api/v1/teams/1');
+        $this->assertTrue($client->getResponse()->headers->contains(
+            'Content-Type',
+            'application/json'
+        ),
+        'the "Content-Type" header is "application/json"'
+            );
+    }
+
     public function testSaveTeamToDatabase()
     {
         $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
