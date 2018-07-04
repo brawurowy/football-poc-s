@@ -33,4 +33,11 @@ class BaseControllerTest extends WebTestCase
 
         return $client;
     }
+
+    public function testClientAuthenticated()
+    {
+        $client = $this->createAuthenticatedClient();
+
+        $this->assertTrue($client != null);
+    }
 }
